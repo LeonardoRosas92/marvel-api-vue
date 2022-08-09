@@ -136,20 +136,24 @@ export default {
 
 @media screen and (max-width: 425px) {
   .header {
-    flex-direction: column-reverse;
+    flex-direction: column;
     &__pictures {
-      position: absolute;
+      align-items: flex-start;
       &__logo {
         margin: 10px 0 10px 10px;
         width: 150px;
         z-index: 99;
-      }
+      }&__ironman {
+      transform: translate(-20%, 250%);
+    }
     }
     &__texts {
+      position: absolute;
       width: 100%;
       min-height: 100vh;
       flex: 1;
       h2 {
+        margin-top: 20px;
         font-size: 2.5rem;
       }
       h3 {
@@ -159,7 +163,7 @@ export default {
   }
   @keyframes ironman {
     100% {
-      transform: translate(20%, -90%) scale(3);
+      transform: translate(20%, 150%) scale(3);
     }
   }
 }
