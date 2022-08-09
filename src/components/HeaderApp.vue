@@ -70,8 +70,8 @@ export default {
     gap: 30px;
     text-align: center;
     h2 {
-      border-top: 5px solid ;
-      border-bottom: 5px solid ;
+      border-top: 5px solid;
+      border-bottom: 5px solid;
       font-size: 5rem;
       opacity: 0;
       animation: showText 2s 3s forwards;
@@ -92,20 +92,20 @@ export default {
   }
 }
 
-@keyframes showLogo{
-  100%{
+@keyframes showLogo {
+  100% {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
 @keyframes showGradient {
-  100%{
+  100% {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
 @keyframes showText {
-  100%{
+  100% {
     opacity: 1;
   }
 }
@@ -143,9 +143,10 @@ export default {
         margin: 10px 0 10px 10px;
         width: 150px;
         z-index: 99;
-      }&__ironman {
-      transform: translate(-20%, 250%);
-    }
+      }
+      &__ironman {
+        transform: translate(-20%, 0%);
+      }
     }
     &__texts {
       position: absolute;
@@ -163,7 +164,7 @@ export default {
   }
   @keyframes ironman {
     100% {
-      transform: translate(20%, 150%) scale(3);
+      transform: translate(20%, 250%) scale(3);
     }
   }
 }
