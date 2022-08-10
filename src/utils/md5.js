@@ -1,9 +1,14 @@
 import md5 from "blueimp-md5";
-
+ 
 const getHash = () => {
-    const t = new Date().getTime();
-    const hash = md5(t+process.env.PRIVATE_KEY+process.env.PUBLIC_KEY);
-    return hash;
+    const ts = new Date().getTime(); 
+    const hash = md5(ts+process.env.VUE_APP_PRIVATE_KEY+process.env.VUE_APP_PUBLIC_KEY);
+    const parameters = {
+        ts : ts,
+        apikey : process.env.VUE_APP_PUBLIC_KEY,
+        hash : hash
+    }
+    return parameters;
 }
 
 export default getHash;

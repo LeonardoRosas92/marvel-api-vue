@@ -13,7 +13,7 @@
       />
     </div>
     <div class="header__texts">
-      <h2>SUPER HERO'S</h2>
+      <h2>SUPER HEROES</h2>
       <h3>Encuentra informacion de tus personajes favoritos de MARVEL</h3>
     </div>
   </header>
