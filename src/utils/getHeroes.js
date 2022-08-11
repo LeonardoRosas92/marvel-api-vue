@@ -1,7 +1,7 @@
 import marvelApi from '@/api/marvelApi'
 import getHash from "@/utils/md5"
 
-const getHeroes = async (offset) => {
+export const getHeroes = async (offset) => {
     try {
         const { ts, apikey, hash } = getHash()
         const { data } = await marvelApi.get(`/characters`, 
@@ -21,4 +21,21 @@ const getHeroes = async (offset) => {
     }
 }
 
-export default getHeroes;
+export const getHeroeInfo = async (id) => {
+    try {
+        const { ts, apikey, hash } = getHash()
+        const { data } = await marvelApi.get(`/characters/${id}`, 
+        {
+            params: {
+                ts,
+                apikey,
+                hash,
+            }
+        }
+        )
+        return data.data.results[0];
+    } catch (error) {
+        console.log(error.response.data.message);
+    }
+}
+

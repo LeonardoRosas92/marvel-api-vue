@@ -1,35 +1,98 @@
 <template>
   <div class="listCards">
-    <CardCharacter v-for="character in characters" :key="character.id" :character="character" class="card" />
+    <CardCharacter
+      v-for="character in getCharacters"
+      :key="character.id"
+      :character="character"
+      class="card"
+      @click.prevent="getCharacter(character.id)"
+    />
+    <div class="spinner-container" v-if="isWaiting">
+      <div class="spinner"></div>
+    </div>
   </div>
 </template>
 
 <script>
-import CardCharacter from '@/components/CardCharacter.vue';
-import { mapActions, mapState } from 'vuex'
+import CardCharacter from "@/components/CardCharacter.vue";
+import { mapActions, mapGetters } from "vuex";
+import router from "@/router";
 export default {
-    name: "ListCard",
-    components: { CardCharacter },
-    methods:{
-        ...mapActions(['getCharacters'])
+  name: "ListCard",
+  components: { CardCharacter },
+  data() {
+    return {
+      wait: false,
+      target: null,
+      isWaiting: false,
+    };
+  },
+  methods: {
+    ...mapActions(["getCharactersApi"]),
+    getCharacter(id) {
+      router.push({ name: "Character", params: { idCharacter: id } });
     },
-    computed:{
-        ...mapState(['characters'])
+    getNextUser() {
+      window.onscroll = async () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+        console.log(bottomOfWindow);
+        if (bottomOfWindow) {
+            this.isWaiting = true;
+            await this.getCharactersApi();
+            this.isWaiting = false;
+        }
+      };
     },
-    mounted() {
-        this.getCharacters();
+  },
+  computed: {
+    ...mapGetters(["getCharacters", "getOffset"]),
+  },
+  mounted() {
+    if (this.getOffset === 0) {
+        this.isWaiting = true;
+        this.getCharactersApi();
+        this.getNextUser();
+        this.isWaiting = false;
     }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.listCards{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 20px;
-    margin: 0 auto;
-    width: 90%;
-    padding-top: 30px;
+.listCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+  margin: 0 auto;
+  width: 90%;
+  padding-top: 30px;
+}
+.spinner-container {
+    padding: 20px 0;
+    width: 100%;
+    .spinner {
+        margin: 0 auto;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: radial-gradient(farthest-side, #f0131e 94%, #0000) top/14.1px
+            14.1px no-repeat,
+            conic-gradient(#0000 30%, #f0131e);
+        -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(100% - 14.1px),
+        #000 0
+        );
+        animation: spinner-c7wet2 0.8s infinite linear;
+    }
+}
+
+@keyframes spinner-c7wet2 {
+  100% {
+    transform: rotate(1turn);
+  }
 }
 </style>

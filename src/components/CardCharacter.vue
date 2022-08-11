@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" >
     <div class="card__picture">
       <img :src="getUrl" alt="" class="img" />
     </div>
@@ -44,10 +44,10 @@ export default {
 
   &:hover {
     cursor: pointer;
-    transform: scale(1.025);
+    transform: scale(1.0);
     .card__picture{
       &::before{
-        width: 100%;
+        width: 110%;
       }
     }
     .card__texts{
@@ -72,13 +72,14 @@ export default {
       content: "";
       position: absolute;
       width: 50%;
-      height: 100%;
+      height: 150%;
       background: linear-gradient(315deg, #f0131e, #aa0000);
       animation: animate 4s linear infinite;
       transition: all 0.5s;
     }
     .img {
       margin: 0 auto;
+      padding: 0;
       position: relative;
       display: block;
       width: 95%;
