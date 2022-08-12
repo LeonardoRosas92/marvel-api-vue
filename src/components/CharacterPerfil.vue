@@ -11,15 +11,18 @@
       <h3>{{ getCharacter.description }}</h3>
     </div>
   </div>
-  <div class="comics">
+  <div class="comics" v-if="getCharacter">
     <h2>Apariciones</h2>
-    <div class="comics__container" v-if="getCharacter">
+    <div class="comics__container">
       <CardComic
         v-for="comic in getCharacter.comics"
         :key="comic.id"
         :comic="comic"
       />
     </div>
+  </div>
+  <div class="spinner-container" v-if="!getCharacter">
+    <div class="spinner"></div>
   </div>
 </template>
 
@@ -51,6 +54,26 @@ export default {
 <style scoped lang="scss">
 * {
   color: white;
+}
+
+.spinner-container {
+  padding: 20px 0;
+  width: 100%;
+  .spinner {
+    margin: 100px auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side, #f0131e 94%, #0000) top/14.1px
+        14.1px no-repeat,
+      conic-gradient(#0000 30%, #f0131e);
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      #0000 calc(100% - 25px),
+      #000 0
+    );
+    animation: spinner-c7wet2 0.8s infinite linear;
+  }
 }
 
 .character {
