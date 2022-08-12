@@ -34,11 +34,10 @@ export default {
     },
     getNextUser() {
       window.onscroll = async () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
+        let bottomOfWindow = document.documentElement.offsetHeight - (document.documentElement.scrollTop + window.innerHeight) <= 10;
+        console.log(document.documentElement.offsetHeight - (document.documentElement.scrollTop + window.innerHeight));
         console.log(bottomOfWindow);
-        if (bottomOfWindow) {
+        if (bottomOfWindow && !this.isWaiting) {
             this.isWaiting = true;
             await this.getCharactersApi();
             this.isWaiting = false;
@@ -74,16 +73,16 @@ export default {
     padding: 20px 0;
     width: 100%;
     .spinner {
-        margin: 0 auto;
-        width: 88px;
-        height: 88px;
+        margin: 100px auto;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
         background: radial-gradient(farthest-side, #f0131e 94%, #0000) top/14.1px
             14.1px no-repeat,
             conic-gradient(#0000 30%, #f0131e);
         -webkit-mask: radial-gradient(
         farthest-side,
-        #0000 calc(100% - 14.1px),
+        #0000 calc(100% - 25px),
         #000 0
         );
         animation: spinner-c7wet2 0.8s infinite linear;

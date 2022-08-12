@@ -6,4 +6,4 @@ const marvelApi = axios.create(
     }
 );
 
-export default marvelApi;
+export default marvelApi; 

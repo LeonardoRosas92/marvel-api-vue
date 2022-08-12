@@ -1,11 +1,24 @@
 <template>
   <div class="character" v-if="getCharacter">
     <div class="character__picture">
-      <img :src="`${getCharacter.thumbnail.path}/portrait_incredible.${getCharacter.thumbnail.extension}`" alt="img_character" />
+      <img
+        :src="`${getCharacter.thumbnail.path}/portrait_incredible.${getCharacter.thumbnail.extension}`"
+        alt="img_character"
+      />
     </div>
     <div class="character__texts">
       <h2>{{ getCharacter.name }}</h2>
       <h3>{{ getCharacter.description }}</h3>
+    </div>
+  </div>
+  <div class="comics">
+    <h2>Apariciones</h2>
+    <div class="comics__container" v-if="getCharacter">
+      <CardComic
+        v-for="comic in getCharacter.comics"
+        :key="comic.id"
+        :comic="comic"
+      />
     </div>
   </div>
 </template>
@@ -13,8 +26,10 @@
 <script>
 import { useRoute } from "vue-router";
 import { mapActions, mapGetters } from "vuex";
+import CardComic from "@/components/CardComic.vue";
 export default {
   name: "CharacterPerfil",
+  components: { CardComic },
   data() {
     return {
       character: null,
@@ -46,6 +61,14 @@ export default {
   border-radius: 15px;
   display: flex;
   padding: 20px 0px;
+  position: relative;
+  &__back {
+    position: absolute;
+    top: 5px;
+    left: 25px;
+    background: rgba(255, 255, 255, 0.265);
+    border-radius: 15px;
+  }
   &__picture {
     width: 30%;
     display: flex;
@@ -74,6 +97,31 @@ export default {
       font-size: 1.2rem;
       font-weight: 200;
     }
+  }
+}
+
+.comics {
+  height: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h2 {
+    font-size: 3rem;
+    display: inline-block;
+    width: max-content;
+    border-bottom: 5px solid;
+    margin-bottom: 30px;
+  }
+  &__container{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding: 20px 20px;
   }
 }
 
