@@ -113,7 +113,7 @@ export default {
     border-bottom: 5px solid;
     margin-bottom: 30px;
   }
-  &__container{
+  &__container {
     width: 100%;
     height: 500px;
     display: flex;
@@ -142,6 +142,13 @@ export default {
       }
     }
   }
+  .comics {
+    h2 {
+      font-size: 2rem;
+      border-bottom: 4px solid;
+      margin-bottom: 20px;
+    }
+  }
 }
 
 @media screen and (max-width: 425px) {
@@ -165,6 +172,13 @@ export default {
         font-size: 0.8rem;
         text-align: center;
       }
+    }
+  }
+  .comics {
+    h2 {
+      font-size: 1.9rem;
+      border-bottom: 3px solid;
+      margin-bottom: 10px;
     }
   }
 }
