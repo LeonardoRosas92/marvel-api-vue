@@ -1,5 +1,6 @@
 <template>
   <div class="character" v-if="getCharacter">
+    <img src="@/assets/back.svg" alt="back_img" class="character__back" @click.prevent="back">
     <div class="character__picture">
       <img
         :src="`${getCharacter.thumbnail.path}/portrait_incredible.${getCharacter.thumbnail.extension}`"
@@ -11,7 +12,7 @@
       <h3>{{ getCharacter.description }}</h3>
     </div>
   </div>
-  <div class="comics" v-if="getCharacter">
+  <div class="comics" v-if="getCharacter && getCharacter.comics.length > 0">
     <h2>Apariciones</h2>
     <div class="comics__container">
       <CardComic
@@ -30,6 +31,7 @@
 import { useRoute } from "vue-router";
 import { mapActions, mapGetters } from "vuex";
 import CardComic from "@/components/CardComic.vue";
+import router from "@/router";
 export default {
   name: "CharacterPerfil",
   components: { CardComic },
@@ -39,7 +41,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getCharacterInfoApi"]),
+    ...mapActions(["getCharacterInfoApi","clearCharacter"]),
+    back(){
+      router.go(-1)
+    }
   },
   computed: {
     ...mapGetters(["getCharacter"]),
@@ -48,6 +53,9 @@ export default {
     const idCharacter = useRoute().params.idCharacter;
     await this.getCharacterInfoApi(idCharacter);
   },
+  unmounted(){
+    this.clearCharacter();
+  }
 };
 </script>
 
@@ -65,9 +73,9 @@ export default {
     height: 150px;
     border-radius: 50%;
     background: radial-gradient(farthest-side, #f0131e 94%, #0000) top/14.1px
-        14.1px no-repeat,
+        25.1px no-repeat,
       conic-gradient(#0000 30%, #f0131e);
-    -webkit-mask: radial-gradient(
+      -webkit-mask: radial-gradient(
       farthest-side,
       #0000 calc(100% - 25px),
       #000 0
@@ -87,10 +95,17 @@ export default {
   position: relative;
   &__back {
     position: absolute;
+    width: 40px;
+    height: 40px;
     top: 5px;
-    left: 25px;
+    left: 5px;
     background: rgba(255, 255, 255, 0.265);
     border-radius: 15px;
+    transition: all .5s;
+    &:hover{
+      background: rgba(255, 255, 255, 0.491);
+      cursor: pointer;
+    }
   }
   &__picture {
     width: 30%;
@@ -108,10 +123,11 @@ export default {
     font-family: "Poppins";
     display: flex;
     flex-direction: column;
+    justify-content: center;
     h2 {
+      width: 90%;
       font-size: 3rem;
-      display: inline-block;
-      width: max-content;
+      display: inline-flex;
       border-bottom: 5px solid;
       margin-bottom: 40px;
       letter-spacing: 2px;
@@ -124,14 +140,16 @@ export default {
 }
 
 .comics {
-  height: 600px;
+  height: 550px;
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   h2 {
     font-size: 3rem;
-    display: inline-block;
+    display: inline-flex;
+    flex-wrap: wrap;
     width: max-content;
     border-bottom: 5px solid;
     margin-bottom: 30px;
@@ -144,7 +162,7 @@ export default {
     overflow: hidden;
     overflow-x: auto;
     margin-bottom: 20px;
-    padding: 20px 20px;
+    padding: 0 20px 20px;
   }
 }
 
@@ -186,10 +204,11 @@ export default {
     &__texts {
       width: 100%;
       padding-right: 10px;
-      align-items: center;
       h2 {
         font-size: 2rem;
         margin: 20px 0;
+        text-align: center;
+        width: 100%;
       }
       h3 {
         font-size: 0.8rem;
@@ -202,7 +221,14 @@ export default {
       font-size: 1.9rem;
       border-bottom: 3px solid;
       margin-bottom: 10px;
+      margin-bottom: 20px;
     }
+  }
+}
+
+@keyframes spinner-c7wet2 {
+  100% {
+    transform: rotate(1turn);
   }
 }
 </style>

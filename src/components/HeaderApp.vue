@@ -5,6 +5,7 @@
         class="header__pictures__logo"
         src="@/assets/marvel_logo.png"
         alt="Logo_Marvel"
+        @click="goHome"
       />
       <img
         class="header__pictures__ironman"
@@ -13,15 +14,21 @@
       />
     </div>
     <div class="header__texts">
-      <h2>SUPER HEROES</h2>
+      <h2> MARVEL SUPER HEROES</h2>
       <h3>Encuentra informacion de tus personajes favoritos de MARVEL</h3>
     </div>
   </header>
 </template>
 
 <script>
+import router from '@/router';
 export default {
   name: "HeaderApp",
+  methods:{
+    goHome(){
+      router.push({ name: "Home" });
+    }
+  }
 };
 </script>
 

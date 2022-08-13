@@ -16,7 +16,6 @@ export const getHeroes = async (offset) => {
             }
         }
         )
-        console.log(data.data);
         return data.data;
     } catch (error) {
         console.log(error.response.data.message);
@@ -36,7 +35,6 @@ export const getHeroeInfo = async (id) => {
         }
         )
         const character = data.data.results[0];
-        console.log(character);
         character.comics = await getComics(data.data.results[0].comics.items);
         return character;
     } catch (error) {
@@ -47,7 +45,6 @@ export const getHeroeInfo = async (id) => {
 const getComics = async (items) => {
     const { ts, apikey, hash } = getHash()
     const endpoints = items.map(item => item.resourceURI.substring(item.resourceURI.search("/comics")));
-    console.log(endpoints);
     const comics =  
         await axios.all(
             endpoints.map( ( endpoint ) => marvelApi.get(endpoint, { params: { ts, apikey, hash}})
@@ -58,6 +55,5 @@ const getComics = async (items) => {
                 }
             ))
         ).then( (comics) => { return comics});
-    console.log(comics);
     return comics;
 }

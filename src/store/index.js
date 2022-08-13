@@ -1,25 +1,25 @@
 import { createStore } from 'vuex'
-import {getHeroes , getHeroeInfo} from '@/utils/getHeroes';
+import { getHeroes, getHeroeInfo } from '@/utils/getHeroes';
 export default createStore({
   state: {
-    characters : [],
-    character : null,
+    characters: [],
+    character: null,
     offset: 0
   },
   getters: {
-    getCharacters(state){
+    getCharacters(state) {
       return state.characters
     },
-    getCharacter(state){
+    getCharacter(state) {
       return state.character
     },
-    getOffset(state){
+    getOffset(state) {
       return state.offset
     }
   },
   mutations: {
-    setCharacters(state, characters){
-      const charactersFilter = characters.filter( character => {
+    setCharacters(state, characters) {
+      const charactersFilter = characters.filter(character => {
         if (!character.thumbnail.path.includes('image_not_available') && character.description != "") {
           return character;
         }
@@ -27,19 +27,31 @@ export default createStore({
       state.characters = [...state.characters, ...charactersFilter];
       state.offset = state.offset + 100;
     },
-    setCharacter(state, character){
+    setCharacter(state, character) {
       state.character = character
+    },
+    clearCharacter(state){
+      state.character = null
+    },
+    clearCharacters(state){
+      state.characters = []
     }
   },
   actions: {
-    async getCharactersApi ({commit, state}) {
-        const data = await getHeroes(state.offset);
-        const results = data.results;
-        commit('setCharacters', results)
+    async getCharactersApi({ commit, state }) {
+      const data = await getHeroes(state.offset);
+      const results = data.results;
+      commit('setCharacters', results)
     },
-    async getCharacterInfoApi({commit} , id){
-        const data = await getHeroeInfo(id);
-        commit('setCharacter', data);
+    async getCharacterInfoApi({ commit }, id) {
+      const data = await getHeroeInfo(id);
+      commit('setCharacter', data);
+    },
+    clearCharacter({ commit }) {
+      commit('clearCharacter');
+    },
+    clearCharacters({ commit }) {
+      commit('clearCharacters');
     }
   }
 })

@@ -28,34 +28,39 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getCharactersApi"]),
+    ...mapActions(["getCharactersApi", "clearCharacters"]),
     getCharacter(id) {
       router.push({ name: "Character", params: { idCharacter: id } });
     },
-    getNextUser() {
-      window.onscroll = async () => {
-        let bottomOfWindow = document.documentElement.offsetHeight - (document.documentElement.scrollTop + window.innerHeight) <= 10;
-        console.log(document.documentElement.offsetHeight - (document.documentElement.scrollTop + window.innerHeight));
-        console.log(bottomOfWindow);
-        if (bottomOfWindow && !this.isWaiting) {
-            this.isWaiting = true;
-            await this.getCharactersApi();
-            this.isWaiting = false;
-        }
-      };
+    async getNextUser() {
+      if (this.getOffset === 0) {
+        await this.getCharactersApi();
+      }
     },
+    async handleScroll() {
+      let bottomOfWindow = document.documentElement.offsetHeight - (document.documentElement.scrollTop + window.innerHeight) <= 10;
+      if (bottomOfWindow && !this.isWaiting && this.getOffset <= 1500) {
+        this.isWaiting = true;
+        await this.getCharactersApi();
+        this.isWaiting = false;
+      }
+    }
   },
   computed: {
     ...mapGetters(["getCharacters", "getOffset"]),
   },
   mounted() {
+    window.addEventListener("scroll", this.handleScroll)
     if (this.getOffset === 0) {
-        this.isWaiting = true;
-        this.getCharactersApi();
-        this.getNextUser();
-        this.isWaiting = false;
+      this.isWaiting = true;
+      this.getNextUser();
+      this.isWaiting = false;
     }
+    return;
   },
+  unmounted(){
+    window.removeEventListener("scroll", this.handleScroll)
+  }
 };
 </script>
 
@@ -68,25 +73,26 @@ export default {
   margin: 0 auto;
   width: 90%;
   padding-top: 30px;
+  padding-bottom: 30px;
 }
 .spinner-container {
-    padding: 20px 0;
-    width: 100%;
-    .spinner {
-        margin: 100px auto;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: radial-gradient(farthest-side, #f0131e 94%, #0000) top/14.1px
-            14.1px no-repeat,
-            conic-gradient(#0000 30%, #f0131e);
-        -webkit-mask: radial-gradient(
-        farthest-side,
-        #0000 calc(100% - 25px),
-        #000 0
-        );
-        animation: spinner-c7wet2 0.8s infinite linear;
-    }
+  padding: 20px 0;
+  width: 100%;
+  .spinner {
+    margin: 100px auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side, #f0131e 94%, #0000) top/14.1px
+        14.1px no-repeat,
+      conic-gradient(#0000 30%, #f0131e);
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      #0000 calc(100% - 25px),
+      #000 0
+    );
+    animation: spinner-c7wet2 0.8s infinite linear;
+  }
 }
 
 @keyframes spinner-c7wet2 {
